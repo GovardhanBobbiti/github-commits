@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CommitsPage from './components/commits';
 import TokenInput from './components/tokeninput';
 import './App.css';

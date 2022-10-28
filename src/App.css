@@ -8,3 +8,23 @@
   margin: 30px auto;
   text-align: center;
 }
+
+.commit {
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #eee;
+  margin: 20px;
+  border-radius: 4px;
+  box-shadow: 1px 0 10px 1px #ccc;
+  cursor: pointer;
+}
+
+.commit .message {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.commit .committer {
+  font-weight: 500;
+}
