@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import CommitsPage from './components/commits';
+import TokenInput from './components/tokeninput';
 import './App.css';
 
 function App() {
+
+  const token = localStorage.getItem('access-token');
+  const [accessToken, setAccessToken] = useState(token);
+
+  const handleToken = (token) => {
+    setAccessToken(token);
+    localStorage.setItem('access-token', token);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        accessToken ? <CommitsPage accessToken={accessToken} /> : <TokenInput handleToken={handleToken} />
+      }
     </div>
   );
 }
