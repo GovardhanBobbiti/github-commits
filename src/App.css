@@ -28,3 +28,9 @@
 .commit .committer {
   font-weight: 500;
 }
+
+.commits-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
