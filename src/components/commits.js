@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Octokit } from "@octokit/core";
 import Commit from './commit';
+import LoadingComponent from './loading';
 
 const owner = "GovardhanBobbiti",
       repo = "github-commits";
@@ -14,15 +15,16 @@ const CommitsPage = ({ accessToken }) => {
     const [isTimerOn, setTimerOn] = useState(false);
  
     const fetchCommits = async () => {
+        //accessToken = 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
         const octokit = new Octokit({
             auth: accessToken
         });
-        const fiveMostRecentCommits = await octokit.request(
+        const commits = await octokit.request(
             `GET /repos/{owner}/{repo}/commits`,
             { owner, repo }
         );
         setTimerOn(true);
-        setCommits(fiveMostRecentCommits.data);
+        setCommits(commits.data);
     }
 
     useEffect(() => {
@@ -51,7 +53,7 @@ const CommitsPage = ({ accessToken }) => {
         setCountDown(COUNTDOWN_TIME);
         setTimeout(() => {
             fetchCommits();
-        }, 500);     
+        }, 1000);     
     }
 
     return (
@@ -59,8 +61,8 @@ const CommitsPage = ({ accessToken }) => {
             <div className='commits-header'>
                 <h1>Commits</h1>
                 <div>
-                    <button onClick={refetchCommits}>Refresh</button>
-                    <span>{countdown}</span>
+                    <span className='countdown'>Refresh in <b>{countdown}</b></span>
+                    <button className='button-style' onClick={refetchCommits}>Refresh</button>    
                 </div>
             </div>
             
@@ -73,7 +75,7 @@ const CommitsPage = ({ accessToken }) => {
                                     committer={commit.committer.name} 
                                     date={commit.committer.date}
                                 />
-                    }) : (<div>Loading...</div>)
+                    }) : (<LoadingComponent />)
                 }
             </div>
         </div>
