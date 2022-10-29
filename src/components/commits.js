@@ -6,18 +6,19 @@ import LoadingComponent from './loading';
 const owner = "GovardhanBobbiti",
       repo = "github-commits";
 
-let timer;
+
 let COUNTDOWN_TIME = 30;
 
 const CommitsPage = ({ accessToken, handleToken }) => {
     const [commits, setCommits] = useState([]);
-    const [countdown, setCountDown] = useState(0);
+    const [countdown, setCountDown] = useState(COUNTDOWN_TIME);
     const [isTimerOn, setTimerOn] = useState(false);
  
     const fetchCommits =  async () =>  {
-        //accessToken = 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
+        //accessToken = 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
+       console.log(localStorage.getItem('access-token'))
         const octokit = new Octokit({
-            auth: accessToken
+            auth: localStorage.getItem('access-token')
         });
 
         let promise = new Promise((resolve, reject) => {
@@ -37,6 +38,8 @@ const CommitsPage = ({ accessToken, handleToken }) => {
                 setCommits(response);
         }).catch((error) => {
             handleToken(null);
+            alert('Please enter valid Access token');
+            localStorage.removeItem('access-token');
         })
         
     }
@@ -44,7 +47,7 @@ const CommitsPage = ({ accessToken, handleToken }) => {
 
     useEffect(() => {
         if(isTimerOn) {
-            timer  = setInterval(() => {
+            setInterval(() => {
                 setCountDown(state => (state - 1))
             }, 1000); 
         }
