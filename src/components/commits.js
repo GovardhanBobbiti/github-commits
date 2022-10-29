@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { Octokit } from "@octokit/core";
 import Commit from './commit';
 import LoadingComponent from './loading';
@@ -9,23 +9,38 @@ const owner = "GovardhanBobbiti",
 let timer;
 let COUNTDOWN_TIME = 30;
 
-const CommitsPage = ({ accessToken }) => {
+const CommitsPage = ({ accessToken, handleToken }) => {
     const [commits, setCommits] = useState([]);
     const [countdown, setCountDown] = useState(0);
     const [isTimerOn, setTimerOn] = useState(false);
  
-    const fetchCommits = async () => {
-        //accessToken = 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
+    const fetchCommits =  async () =>  {
+        //accessToken = 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
         const octokit = new Octokit({
             auth: accessToken
         });
-        const commits = await octokit.request(
-            `GET /repos/{owner}/{repo}/commits`,
-            { owner, repo }
-        );
-        setTimerOn(true);
-        setCommits(commits.data);
+
+        let promise = new Promise((resolve, reject) => {
+            let request = octokit.request(
+                `GET /repos/{owner}/{repo}/commits`,
+                { owner, repo }
+            );
+            request.then(response => {
+                resolve(response.data)
+            }).catch(error => {
+                reject();
+            })
+        })
+        promise.then((response)=> {
+            setCountDown(COUNTDOWN_TIME);
+                setTimerOn(true);
+                setCommits(response);
+        }).catch((error) => {
+            handleToken(null);
+        })
+        
     }
+
 
     useEffect(() => {
         if(isTimerOn) {
@@ -36,21 +51,19 @@ const CommitsPage = ({ accessToken }) => {
     }, [isTimerOn]);
    
     useEffect(() => {
-        if(countdown === -1) {
+        if(countdown === 0) {
             refetchCommits();  
         }
     }, [countdown]);
 
     
 
-    useEffect(() => {
-        setCountDown(COUNTDOWN_TIME);
+    useEffect(() => { 
         fetchCommits();
     }, []);
 
     const refetchCommits = () => {
         setCommits([]);
-        setCountDown(COUNTDOWN_TIME);
         setTimeout(() => {
             fetchCommits();
         }, 1000);     

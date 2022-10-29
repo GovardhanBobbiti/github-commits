@@ -16,7 +16,10 @@ function App() {
   return (
     <div className="App">
       {
-        accessToken ? <CommitsPage accessToken={accessToken} /> : <TokenInput handleToken={handleToken} />
+        accessToken ? <CommitsPage 
+                        accessToken={accessToken} 
+                        handleToken={handleToken}
+                      /> : <TokenInput handleToken={handleToken} />
       }
     </div>
   );

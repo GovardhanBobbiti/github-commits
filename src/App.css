@@ -92,6 +92,11 @@
     height: calc(100vh - 200px);
 }
 
+button[disabled] {
+  opacity: 0.6;
+  cursor: auto;
+}
+
 .lds-ripple {
   display: inline-block;
   position: relative;
