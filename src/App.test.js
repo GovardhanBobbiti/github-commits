@@ -1,8 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import TokenInput from './components/tokeninput';
+import Commits from './components/commits';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
+test('Totken input page', () => {
+  render(<TokenInput />);
+  const linkElement = screen.getByText(/You are not Authorzed/i);
+  expect(linkElement).toBeInTheDocument();
+});
+
+test('commits page', () => {
+  render(<Commits />);
+  const linkElement = screen.getByText(/Commits/i);
   expect(linkElement).toBeInTheDocument();
 });

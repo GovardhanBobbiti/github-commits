@@ -15,7 +15,7 @@ const CommitsPage = ({ accessToken }) => {
     const [isTimerOn, setTimerOn] = useState(false);
  
     const fetchCommits = async () => {
-        //accessToken = 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
+        //accessToken = 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
         const octokit = new Octokit({
             auth: accessToken
         });
